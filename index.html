@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+    <title>Simple Words Cloud</title>
+    <link rel="icon" href="du.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body> 
+    <h1>Grundphrasen auf Deutsch!</h1>
+    <div id="words_cloud"></div>
+</body>
+       
+
+<script>
+
+const myWords = ["Hallo, wie gehts?", "Mir gehts gut", "Freut mich, Sie kennenzulernen!", "Vielen Dank", "Bitte schön!", "Wie heißen Sie?", "Willkommen!", "Alles Gute zum Geburtstag!", "Es tut mir leid", "Bis später!", "Tschüß!", "Wie viel kostet das?", "Haben Sie vegetarisches Essen?"] 
+
+let margin = {top: 100, right: 100, bottom: 100, left: 100},
+    width = 500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+    let svg = d3.select("#words_cloud").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let layout = d3.layout.cloud()
+    .size([width, height])
+    .words(myWords.map(function(d) { return {text: d}; }))
+    .fontSize(20) 
+    .padding(25)             
+    .on("end", draw);
+    layout.start();
